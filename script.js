@@ -1,238 +1,226 @@
-// === Тень у хедера при скролле ===
-window.addEventListener('scroll', function() {
-  const header = document.querySelector('.main-header');
-  if (window.scrollY > 50) {
-      header.classList.add('shadow');
-  } else {
-      header.classList.remove('shadow');
-  }
+function openPopup(popupId) {
+    document.getElementById(popupId).style.display = "block";
+}
+
+document.querySelectorAll('.close-button').forEach(button => {
+    button.addEventListener('click', function() {
+        this.closest('.popup').style.display = "none";
+    });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-  const iconWrappers = document.querySelectorAll('.icon-wrapper');
-  const popups = document.querySelectorAll('.popup');
-  const closeButtons = document.querySelectorAll('.close-button');
-
-  iconWrappers.forEach(wrapper => {
-      wrapper.addEventListener('click', function() {
-          const popupId = this.dataset.popup;
-          const popup = document.getElementById(popupId);
-          popup.classList.add('open');
-      });
-  });
-
-  closeButtons.forEach(button => {
-      button.addEventListener('click', function(event) {
-          event.stopPropagation(); // Предотвращаем всплытие события
-          const popup = this.closest('.popup');
-          popup.classList.remove('open');
-      });
-  });
-
-  // Закрытие popup при клике вне его
-  window.addEventListener('click', function(event) {
-      if (event.target.classList.contains('popup')) {
-          event.target.classList.remove('open');
-      }
-  });
-});
-
+// Existing animation code here
 (function() {
 
-  var width, height, largeHeader, canvas, ctx, points, target, animateHeader = true;
-  var aboutMeSection; // Добавляем переменную для секции "Обо мне"
+    var width, height, largeHeader, canvas, ctx, points, target, animateHeader = true;
+    var headerHeight, goldenLineOffset;
 
-  // Main
-  initHeader();
-  initAnimation();
-  addListeners();
+    // Main
+    initHeader();
+    initAnimation();
+    addListeners();
 
-  function initHeader() {
-      aboutMeSection = document.querySelector('.about_me'); // Получаем секцию "Обо мне"
-      width = document.getElementById('large-header').offsetWidth; // Получаем ширину из large-header
-      height = document.getElementById('large-header').offsetHeight; // Получаем высоту из large-header
-      target = {x: width/2, y: height/2};
+    function initHeader() {
+        headerHeight = document.querySelector('.main-header').offsetHeight;
+        goldenLineOffset = document.querySelector('.golden-line').offsetTop;
 
-      largeHeader = document.getElementById('large-header');
-      largeHeader.style.position = 'absolute'; // Абсолютное позиционирование
-      largeHeader.style.top = '0';
-      largeHeader.style.left = '0';
-      largeHeader.style.width = '100%';
-      largeHeader.style.height = height+'px'; // Устанавливаем высоту
-      largeHeader.style.zIndex = '-1'; // Помещаем canvas под контент
+        width = window.innerWidth;
+        height = goldenLineOffset - headerHeight;
 
-      canvas = document.getElementById('demo-canvas');
-      canvas.width = width;
-      canvas.height = height;
-      ctx = canvas.getContext('2d');
+        target = {x: width/2, y: height/2};
 
-      // create points
-      points = [];
-      for(var x = 0; x < width; x = x + width/20) {
-          for(var y = 0; y < height; y = y + height/20) {
-              var px = x + Math.random()*width/20;
-              var py = y + Math.random()*height/20;
-              var p = {x: px, originX: px, y: py, originY: py };
-              points.push(p);
-          }
-      }
+        largeHeader = document.getElementById('large-header');
+        largeHeader.style.position = 'fixed';
+        largeHeader.style.top = headerHeight + 'px';
+        largeHeader.style.left = '0';
+        largeHeader.style.width = '100%';
+        largeHeader.style.height = height+'px';
+        largeHeader.style.zIndex = -1;
 
-      // for each point find the 5 closest points
-      for(var i = 0; i < points.length; i++) {
-          var closest = [];
-          var p1 = points[i];
-          for(var j = 0; j < points.length; j++) {
-              var p2 = points[j]
-              if(!(p1 == p2)) {
-                  var placed = false;
-                  for(var k = 0; k < 5; k++) {
-                      if(!placed) {
-                          if(closest[k] == undefined) {
-                              closest[k] = p2;
-                              placed = true;
-                          }
-                      }
-                  }
+        canvas = document.getElementById('demo-canvas');
+        canvas.width = width;
+        canvas.height = height;
+        ctx = canvas.getContext('2d');
 
-                  for(var k = 0; k < 5; k++) {
-                      if(!placed) {
-                          if(getDistance(p1, p2) < getDistance(p1, closest[k])) {
-                              closest[k] = p2;
-                              placed = true;
-                          }
-                      }
-                  }
-              }
-          }
-          p1.closest = closest;
-      }
+        // create points
+        points = [];
+        for(var x = 0; x < width; x = x + width/20) {
+            for(var y = 0; y < height; y = y + height/20) {
+                var px = x + Math.random()*width/20;
+                var py = y + Math.random()*height/20;
+                var p = {x: px, originX: px, y: py, originY: py };
+                points.push(p);
+            }
+        }
 
-      // assign a circle to each point
-      for(var i in points) {
-          var c = new Circle(points[i], 2+Math.random()*2, 'rgba(255,255,255,0.3)');
-          points[i].circle = c;
-      }
-  }
+        // for each point find the 5 closest points
+        for(var i = 0; i < points.length; i++) {
+            var closest = [];
+            var p1 = points[i];
+            for(var j = 0; j < points.length; j++) {
+                var p2 = points[j]
+                if(!(p1 == p2)) {
+                    var placed = false;
+                    for(var k = 0; k < 5; k++) {
+                        if(!placed) {
+                            if(closest[k] == undefined) {
+                                closest[k] = p2;
+                                placed = true;
+                            }
+                        }
+                    }
 
-  // Event handling
-  function addListeners() {
-      if(!('ontouchstart' in window)) {
-          window.addEventListener('mousemove', mouseMove);
-      }
-      window.addEventListener('scroll', scrollCheck);
-      window.addEventListener('resize', resize);
-  }
+                    for(var k = 0; k < 5; k++) {
+                        if(!placed) {
+                            if(getDistance(p1, p2) < getDistance(p1, closest[k])) {
+                                closest[k] = p2;
+                                placed = true;
+                            }
+                        }
+                    }
+                }
+            }
+            p1.closest = closest;
+        }
 
-  function mouseMove(e) {
-      var rect = aboutMeSection.getBoundingClientRect();
-      var posx = posy = 0;
-      if (e.pageX || e.pageY) {
-          posx = e.pageX - rect.left;
-          posy = e.pageY - rect.top;
-      } else if (e.clientX || e.clientY) {
-          posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - rect.left;
-          posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop - rect.top;
-      }
+        // assign a circle to each point
+        for(var i in points) {
+            var c = new Circle(points[i], 2+Math.random()*2, 'rgba(255,255,255,0.3)');
+            points[i].circle = c;
+        }
+    }
 
-      // Убедимся, что координаты внутри секции
-      if (posx >= 0 && posx <= width && posy >= 0 && posy <= height) {
-          target.x = posx;
-          target.y = posy;
-      } else {
-          // Если курсор снаружи секции, устанавливаем target вне области canvas
-          target.x = -100;
-          target.y = -100;
-      }
-  }
+    // Event handling
+    function addListeners() {
+        if(!('ontouchstart' in window)) {
+            window.addEventListener('mousemove', mouseMove);
+        }
+        window.addEventListener('resize', resize);
+    }
 
-  function scrollCheck() {
-      if(document.body.scrollTop > height) animateHeader = false;
-      else animateHeader = true;
-  }
+    function mouseMove(e) {
+      let rect = canvas.getBoundingClientRect();
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
 
-  function resize() {
-      width = document.getElementById('large-header').offsetWidth; // Получаем ширину из large-header
-      height = document.getElementById('large-header').offsetHeight; // Получаем высоту из large-header
-      canvas.width = width;
-      canvas.height = height;
-  }
+      let canvasLeft = rect.left + scrollLeft;
+      let canvasTop = rect.top + scrollTop;
 
-  // animation
-  function initAnimation() {
-      animate();
-      for(var i in points) {
-          shiftPoint(points[i]);
-      }
-  }
+      let x = e.clientX + scrollLeft - canvasLeft;
+      let y = e.clientY + scrollTop - canvasTop;
 
-  function animate() {
-      if(animateHeader) {
-          ctx.clearRect(0,0,width,height);
-          for(var i in points) {
-              // detect points in range
-              if(Math.abs(getDistance(target, points[i])) < 4000) {
-                  points[i].active = 0.3;
-                  points[i].circle.active = 0.6;
-              } else if(Math.abs(getDistance(target, points[i])) < 20000) {
-                  points[i].active = 0.1;
-                  points[i].circle.active = 0.3;
-              } else if(Math.abs(getDistance(target, points[i])) < 40000) {
-                  points[i].active = 0.02;
-                  points[i].circle.active = 0.1;
-              } else {
-                  points[i].active = 0;
-                  points[i].circle.active = 0;
-              }
+      target.x = x;
+      target.y = y;
+    }
 
-              drawLines(points[i]);
-              points[i].circle.draw();
-          }
-      }
-      requestAnimationFrame(animate);
-  }
 
-  function shiftPoint(p) {
-      TweenLite.to(p, 1+1*Math.random(), {x:p.originX-50+Math.random()*100,
-          y: p.originY-50+Math.random()*100, ease:Circ.easeInOut,
-          onComplete: function() {
-              shiftPoint(p);
-          }});
-  }
+    function resize() {
+        headerHeight = document.querySelector('.main-header').offsetHeight;
+        goldenLineOffset = document.querySelector('.golden-line').offsetTop;
 
-  // Canvas manipulation
-  function drawLines(p) {
-      if(!p.active) return;
-      for(var i in p.closest) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p.closest[i].x, p.closest[i].y);
-          ctx.strokeStyle = 'rgba(184, 172, 132,'+ p.active+')';
-          ctx.stroke();
-      }
-  }
+        width = window.innerWidth;
+        height = goldenLineOffset - headerHeight;
 
-  function Circle(pos,rad,color) {
-      var _this = this;
+        largeHeader.style.height = height+'px';
+        canvas.width = width;
+        canvas.height = height;
+    }
 
-      // constructor
-      (function() {
-          _this.pos = pos || null;
-          _this.radius = rad || null;
-          _this.color = color || null;
-      })();
+    // animation
+    function initAnimation() {
+        animate();
+        for(var i in points) {
+            shiftPoint(points[i]);
+        }
+    }
 
-      this.draw = function() {
-          if(!_this.active) return;
-          ctx.beginPath();
-          ctx.arc(_this.pos.x, _this.pos.y, _this.radius, 0, 2 * Math.PI, false);
-          ctx.fillStyle = 'rgba(184, 172, 132,'+ _this.active+')';
-          ctx.fill();
-      };
-  }
+    function animate() {
+        if(animateHeader) {
+            ctx.clearRect(0,0,width,height);
+            for(var i in points) {
+                // detect points in range
+                if(Math.abs(getDistance(target, points[i])) < 4000) {
+                    points[i].active = 0.3;
+                    points[i].circle.active = 0.6;
+                } else if(Math.abs(getDistance(target, points[i])) < 20000) {
+                    points[i].active = 0.1;
+                    points[i].circle.active = 0.3;
+                } else if(Math.abs(getDistance(target, points[i])) < 40000) {
+                    points[i].active = 0.02;
+                    points[i].circle.active = 0.1;
+                } else {
+                    points[i].active = 0;
+                    points[i].circle.active = 0;
+                }
 
-  // Util
-  function getDistance(p1, p2) {
-      return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
-  }
+                drawLines(points[i]);
+                points[i].circle.draw();
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+
+    function shiftPoint(p) {
+        TweenLite.to(p, 1+1*Math.random(), {x:p.originX-50+Math.random()*100,
+            y: p.originY-50+Math.random()*100, ease:Circ.easeInOut,
+            onComplete: function() {
+                shiftPoint(p);
+            }});
+    }
+
+    // Canvas manipulation
+    function drawLines(p) {
+        if(!p.active) return;
+        for(var i in p.closest) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p.closest[i].x, p.closest[i].y);
+            ctx.strokeStyle = 'rgba(184, 172, 132,'+ p.active+')';
+            ctx.stroke();
+        }
+    }
+
+    function Circle(pos,rad,color) {
+        var _this = this;
+
+        // constructor
+        (function() {
+            _this.pos = pos || null;
+            _this.radius = rad || null;
+            _this.color = color || null;
+        })();
+
+        this.draw = function() {
+            if(!_this.active) return;
+            ctx.beginPath();
+            ctx.arc(_this.pos.x, _this.pos.y, _this.radius, 0, 2 * Math.PI, false);
+            ctx.fillStyle = 'rgba(184, 172, 132,'+ _this.active+')';
+            ctx.fill();
+        };
+    }
+
+    // Util
+    function getDistance(p1, p2) {
+        return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
+    }
 
 })();
+
+
+function openPopup(popupId) {
+    var popup = document.getElementById(popupId);
+    if (popup) {
+      popup.style.display = "block";
+    } else {
+      console.error("Popup with id '" + popupId + "' not found.");
+    }
+  }
+  
+  function closePopup(popupId) {
+    var popup = document.getElementById(popupId);
+    if (popup) {
+      popup.style.display = "none";
+    } else {
+      console.error("Popup with id '" + popupId + "' not found.");
+    }
+  }
+  
