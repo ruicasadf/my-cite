@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Stars</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <nav>
+            <img class="logo" src="/img/icons8-компьютер-50.png" alt="Logo">
+        </nav>
+    </header>
+    <main id="main">
+        <section class="about_me">
+            <div id="large-header" class="large-header">
+              <canvas id="demo-canvas"></canvas>
+            </div>
+            <h1 class="I_am">I am Yuri Nakhratov</h1>
+            <img class="my_photo" src="/img/91f742e6-1510-484c-b664-f1c5ccf8ca44.jpeg" alt="My Photo">
+            <p>I am a web developer from Russia, from the city of Novosibirsk. I am currently actively looking for a job. I will be happy to work in your company and take part in your projects!</p>
+            <div class="info">
+                <div class="info_style">Phone</div>
+                <div class="info_contacts1">+ 7-(914)-674-30-01</div>
+                <div class="info_style">Email</div>
+                <div class="info_contacts2">urijhornin@gmail.com</div>
+                <div class="info_style">Address</div>
+                <div class="info_contacts3">12 Pacific Street</div>
+                <div class="info_style">Social</div>
+                <div class="social-links">
+                    <a href="https://github.com/ruicasadf" target="_blank">
+                        <img class="info_contacts4 github" src="/img/github-mark.svg" alt="GitHub">
+                    </a>
+                    <a href="https://t.me/@crupica" target="_blank">
+                        <img class="info_contacts4 telegram" src="/img/icons8-телеграмма-app.svg" alt="Telegram">
+                    </a>
+                    <a href="https://vk.com/alincachuits" target="_blank">
+                        <img class="info_contacts4 vk" src="/img/icons8-vk.svg" alt="VK">
+                    </a>
+                </div>
+            </div>
+        </section>
+        <div class="golden-line"></div>
+        <section class="skills">
+            <div class="conteiner_skills">
+                <div class="conteiner_skills1">
+                    <p class="p">Skills</p>
+                    <p class="skills_info">I am very energized by solving complex and non-standard tasks, and I also love working with equally charged people.</p>
+                </div>
+                <div>
+                    <div class="container">
+                        <div class="box">
+                            <img src="/img/icons8-исходный-код-30.png" alt="Icon" class="main-icon" />
+                            <div class="icons-container">
+                              <div class="icon-wrapper react-icon" data-popup="react-popup">
+                                <img src="/img/icons8-react-native.svg" alt="React"/>
+                              </div>
+                              <div class="icon-wrapper nodejs-icon" data-popup="nodejs-popup">
+                                <img src="/img/icons8-nodejs.svg" alt="NodeJS"/>
+                              </div>
+                              <div class="icon-wrapper angular-icon" data-popup="angular-popup">
+                                <img src="/img/icons8-angular.svg" alt="JavaScript"/>
+                              </div>
+                              <div class="icon-wrapper html-icon" data-popup="html-popup">
+                                <img src="/img/icons8-html-5.svg" alt="HTML5"/>
+                              </div>
+                              <div class="icon-wrapper css-icon" data-popup="css-popup">
+                                <img src="/img/icons8-css3.svg" alt="CSS3"/>
+                              </div>
+                              <div class="icon-wrapper js-icon" data-popup="js-popup">
+                                <img src="/img/icons8-javascript.svg" alt="Angular"/>
+                              </div>
+                          </div>
+                        </div>
+                    
+                        <div class="popup" id="react-popup">
+                          <div class="popup-content">
+                            <button class="close-button">&times;</button>
+                            <h2>React</h2>
+                            <p>I'm just learning to program in react, but I'm enjoying learning it.</p>
+                          </div>
+                        </div>
+                    
+                        <div class="popup" id="nodejs-popup">
+                          <div class="popup-content">
+                            <button class="close-button">&times;</button>
+                            <h2>Node.js</h2>
+                            <p>I know the Node.js is at an entry level, but I'm constantly trying to improve!</p>
+                          </div>
+                        </div>
+                    
+                        <div class="popup" id="angular-popup">
+                          <div class="popup-content">
+                            <button class="close-button">&times;</button>
+                            <h2>Angular</h2>
+                            <p>over the past year, there have been a couple of small orders that I have completed on Angular</p>
+                          </div>
+                        </div>
+                    
+                        <div class="popup" id="html-popup">
+                          <div class="popup-content">
+                            <button class="close-button">&times;</button>
+                            <h2>HTML</h2>
+                            <p>HTML is one of my strengths!</p>
+                          </div>
+                        </div>
+                    
+                        <div class="popup" id="css-popup">
+                          <div class="popup-content">
+                            <button class="close-button">&times;</button>
+                            <h2>CSS</h2>
+                            <p>I really like learning the intricacies of css.</p>
+                          </div>
+                        </div>
+                    
+                        <div class="popup" id="js-popup">
+                          <div class="popup-content">
+                            <button class="close-button">&times;</button>
+                            <h2>JavaScript</h2>
+                            <p>JavaScript is a language that I learn with pleasure, its logic is very simple and understandable to me.</p>
+                          </div>
+                        </div>
+                    </div>
+                        <script src="/test/test.js"></script>
+                        <svg width="0" height="0">
+                          <defs>
+                            <filter id="inner-shadow">
+                              <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+                              <feOffset dx="0" dy="0" result="offsetblur"/>
+                              <feComposite in="SourceGraphic" in2="offsetblur" operator="atop"/>
+                            </filter>
+                          </defs>
+                        </svg>
+                </div> 
+            </div>
+        </section>
+    </main>
+    <script src="/script.js"></script>
+</body>
+</html>

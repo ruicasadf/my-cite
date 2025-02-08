@@ -1,0 +1,460 @@
+body {
+    margin: 0;
+    background-color: #222;
+    min-height: 100vh;
+    position: relative;
+    font-family: sans-serif;
+   /* Скрываем звезды, выходящие за пределы body */
+}
+
+.main-header {
+    background-image: linear-gradient(to right, rgb(184, 172, 132), white);
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: box-shadow 0.3s ease;
+}
+
+.main-header.shadow {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.content {
+    margin-top: 80px;
+    padding: 20px;
+}
+
+.logo{
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+    margin-left: 150px;
+}
+
+main {
+    position: relative;
+    min-height: 100vh;
+    color: white;
+    padding: 20px;
+    font-family: sans-serif;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    width: 0; /* Изначально звезда невидима */
+    height: 0;
+    border-radius: 50%;
+    background-color: white;
+    opacity: 0; /* Изначально звезда прозрачна */
+    animation: moveStar var(--star-duration) linear,
+               fadeIn 0.3s linear, 
+               fadeOut 0.3s linear,
+               twinkle var(--twinkle-duration) linear infinite; /* Добавлена анимация мерцания */
+    z-index: 1;
+    animation-fill-mode: forwards; /* Важно для управления состоянием после анимации */
+}
+
+@keyframes moveStar {
+    0% { transform: translate(var(--star-startX), var(--star-startY)); }
+    100% { transform: translate(var(--star-endX), var(--star-endY)); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: var(--star-opacity); }
+}
+
+@keyframes fadeOut {
+    0% { opacity: var(--star-opacity); }
+    100% { opacity: 0; }
+}
+
+@keyframes twinkle {
+    0% { opacity: var(--star-opacity); }
+    50% { opacity: 0; }
+    100% { opacity: var(--star-opacity); }
+}
+
+.my_photo{
+    width: 350px;
+    border-radius: 25%;
+    margin-left: auto;
+    grid-column: 2;
+    grid-row: 1 / span 6;
+    }
+
+    .about_me {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        margin-left: 150px;
+        margin-right: 150px;
+        margin-top: 150px;
+        box-sizing: border-box;
+        gap: 10px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+    
+    .I_am {
+        color: rgb(184, 172, 132);
+        font-size: 2em;
+        font-weight: 700;
+        margin-bottom: 0.5em;
+    }
+    
+    .my_photo {
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+    
+    .info {
+        display: grid;
+        grid-template-columns: 100px auto;
+        grid-template-rows: auto auto auto auto;
+        box-sizing: border-box;
+        gap: 10px;
+    }
+    
+    .info_style {
+        font-weight: bold;
+        grid-column: 1;
+    }
+    
+    .info_contacts1 { grid-column: 2; grid-row: 1; }
+    .info_contacts2 { grid-column: 2; grid-row: 2; }
+    .info_contacts3 { grid-column: 2; grid-row: 3; }
+    .info_style[style="Social"] { grid-row: 4; } 
+    
+    .social-links {
+        grid-column: 2;
+        grid-row: 4;
+        display: flex;
+        align-items: center;
+    }
+    
+    .social-links > a {
+        margin-right: 10px;
+        display: inline-block;
+    }
+    
+    .social-links > a:last-child {
+        margin-right: 0;
+    }
+    
+    .info_contacts4 {
+        max-width: 20px;
+        height: auto;
+        filter: invert(100%);
+        transition: filter 0.5s ease;
+    }
+    
+    .info_contacts4:hover {
+        filter: invert(0%);
+    }
+    
+    .golden-line {
+        width: 0; /* Изначальная ширина равна 0 */
+        height: 5px; /* Толщина линии */
+        background-color: #F0E68C; /* Золотисто-песочный цвет */
+        animation: expand 1.5s forwards 1s; /* Анимация: expand, длительность 1.5 секунды, задержка 1 секунда */
+        margin-top: 100px;
+      }
+      
+      @keyframes expand {
+        from {
+          width: 0; /* Начальная ширина */
+        }
+        to {
+          width: 100%; /* Конечная ширина (занимает всю ширину контейнера) */
+        }
+      }
+
+      .about_me.has-stars {
+        position: relative; /* Ensure stacking context */
+        z-index: 1; /* Content is on top */
+    }
+    
+    .about_me.has-stars .star {
+        z-index: -1; /* Stars are behind the content */
+    }
+    .about_me {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+      margin-left: 150px;
+      margin-right: 150px;
+      margin-top: 150px;
+      box-sizing: border-box;
+      gap: 10px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      position: relative; /* Важно для позиционирования контейнера звезд */
+      overflow: hidden; /* Скрываем звезды за пределами секции */
+  }
+  
+  .star-container {
+      position: absolute;
+      top: -120px; /* Смещаем вверх на 120px */
+      left: -120px; /* Смещаем влево на 120px */
+      width: calc(100% + 240px); /* Увеличиваем ширину на 240px (120px с каждой стороны) */
+      height: calc(100% + 240px); /* Увеличиваем высоту на 240px (120px с каждой стороны) */
+      z-index: 0; /* Помещаем за контент */
+      pointer-events: none; /* Чтобы не перекрывал контент */
+  }
+  
+  .has-stars .star {
+      position: absolute;
+  }
+  
+
+
+/* Общие стили */
+* {
+    box-sizing: border-box;
+  }
+  
+  /* Стили контейнера */
+  .container {
+    width: 370px;
+    height: 200px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 230px;
+    margin-top: 100px;
+  }
+  
+  /* Стили бокса */
+  .box {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 0 15px 5px rgba(184, 172, 132, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: width 0.8s ease, height 0.8s ease;
+    transition-delay: 0s;
+    animation: pulse-glow 2.5s infinite; /* Добавляем анимацию */
+  }
+  
+  /* Стили бокса при наведении */
+  .box:hover {
+    width: 300px;
+    height: 200px;
+    transition-delay: 0s;
+    box-shadow: 0 0 30px 10px rgba(184, 172, 132, 0.9);
+  }
+  
+  /* Стили бокса при потере фокуса (убираем курсор) */
+  .box:not(:hover) {
+    transition-delay: 0.8s;
+  }
+  
+  /* Стили основного изображения (иконки) */
+  .box .main-icon {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s ease, opacity 0.2s ease;
+  }
+  
+  .box:hover .main-icon {
+    opacity: 0;
+  }
+  
+  /* Стили контейнера иконок */
+  .icons-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  /* Ключевые кадры для анимации свечения */
+  @keyframes pulse-glow {
+    0% {
+      box-shadow: 0 0 45px 15px rgba(184, 172, 132, 0.4); /* Увеличенный радиус */
+    }
+    50% {
+      box-shadow: 0 0 45px 15px rgba(184, 172, 132, 0.9); /* Увеличенный радиус */
+    }
+    100% {
+      box-shadow: 0 0 45px 15px rgba(184, 172, 132, 0.4); /* Увеличенный радиус */
+    }
+  }
+
+
+  
+  /* Показываем контейнер при наведении на бокс */
+  .box:hover .icons-container {
+    opacity: 1;
+  }
+  
+  /* Стили обертки иконки */
+  .icon-wrapper {
+    position: relative; /* Важно для позиционирования клонов */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px; /* Примерная ширина секции */
+    height: 100px; /* Примерная высота секции */
+    opacity: 0; /* Изначально скрываем */
+    transition: opacity 0.3s ease; /* Добавляем плавное появление/исчезновение */
+    transition-delay: 0.8s; /* Добавляем задержку в 0.8 секунды */
+    cursor: pointer; /* Изменяем курсор на pointer */
+  }
+  
+  /* Анимация появления оберток иконок при наведении на бокс */
+  .box:hover .icon-wrapper {
+    opacity: 1; /* Показываем при наведении */
+  }
+  
+  /* Стили иконок */
+  .icons-container img {
+    width: 50px;
+    height: 50px;
+    opacity: 1; /* Иконки всегда видимы */
+    transition: transform 0.3s ease;
+  }
+  
+
+  
+  /* Задержки для каждой иконки */
+  .icon-wrapper:nth-child(1) {
+    transition-delay: 0.8s; /* Первая иконка: 0.8s + 0.1s */
+  }
+  
+  .icon-wrapper:nth-child(2) {
+    transition-delay: 0.83s; /* Вторая иконка: 0.8s + 0.2s */
+  }
+  
+  .icon-wrapper:nth-child(3) {
+    transition-delay: 0.86s; /* Третья иконка: 0.8s + 0.3s */
+  }
+  
+  .icon-wrapper:nth-child(4) {
+    transition-delay: 0.89s; /* Четвертая иконка: 0.8s + 0.4s */
+  }
+  
+  .icon-wrapper:nth-child(5) {
+    transition-delay: 0.92s; /* Пятая иконка: 0.8s + 0.5s */
+  }
+  
+  .icon-wrapper:nth-child(6) {
+    transition-delay: 0.95s; /* Шестая иконка: 0.8s + 0.6s */
+  }
+  
+  .icon-wrapper:hover img {
+    transform: translateY(-5px) scale(1.1);
+    filter:
+      drop-shadow(0 0 5px rgba(184, 172, 132, 0.9)) /* Яркое центральное свечение */
+      drop-shadow(0 0 10px rgba(184, 172, 132, 0.7))
+      drop-shadow(0 0 15px rgba(184, 172, 132, 0.5))
+      drop-shadow(0 0 20px rgba(184, 172, 132, 0.3))
+      drop-shadow(0 0 25px rgba(184, 172, 132, 0.1)); /* Мягкое внешнее свечение */
+  }
+  
+  /* Стили для всплывающих окон */
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Поверх всего */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .popup.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .popup-content {
+    background-color: #222; /* Темно-серый фон */
+    color: #fff; /* Белый текст */
+    font-family: sans-serif; /* Шрифт sans-serif */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 1000px rgba(184, 172, 132, 0.7); /* Тень вокруг */
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    transform: scale(0.5);
+    transition: transform 0.3s ease;
+  }
+  
+  .popup.open .popup-content {
+    transform: scale(1);
+  }
+  
+  .popup .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #fff; /* Белый цвет для кнопки закрытия */
+  }
+
+.conteiner_skills{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.conteiner_skills1 {
+  margin-left: 150px;
+  padding: 15px;
+}
+
+.conteiner_skills1 {
+  margin-left: 133px;
+}
+
+.p {
+  font-size: 26px;
+  font-family: sans-serif;
+  color: rgb(184, 172, 132); /* Цвет заголовка Skills */
+  margin-bottom: 5px; /*  Добавлено для центрирования текста, если это необходимо */
+  background: linear-gradient(to left, #FFF 20%, rgb(184, 172, 132) 40%,rgb(184, 172, 132) 60%, #FFF 80%);
+  background-size: 200% auto;
+  color: #000; /* Этот цвет будет виден, если background-clip не сработает */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: -200% center; /* Изменено направление анимации */
+  }
+}
